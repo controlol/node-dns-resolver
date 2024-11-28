@@ -38,7 +38,7 @@ For CNAME or Web validation the resolver will follow the CNAME records until it 
 
 ### Global configuration
 
-It's also possible to configure the resolver globally.
+It's also possible to configure the resolver globally. To use the global configuration in a resolver instance omit the `config` argument in the constructor. The global configuration of the instance is not automatically updated when the configuration is changed. It's possible to update the configuration by calling the `config` method on the instance.
 
 ```js
 import Resolver from "dns-resolver"

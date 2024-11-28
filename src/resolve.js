@@ -26,13 +26,23 @@ class DnsResolver {
 
   /**
    * Creates a new instance of DnsResolver
-   * @param {import("./config.js").DnsValidateConfig} [config] Override default configuration
+   * @param {import("./config.js").DnsValidateConfig} [config] Override global configuration
    */
   constructor(config) {
     this.#resolver = new Resolver()
     if (config && typeof config === "object") this.c = config
     else this.c = configuration.get()
   }
+
+  /**
+   * Set the configuration of the resolver
+   * @param {import("./config.js").DnsValidateConfig} [config] Override global configuration
+   */
+  config = (config) => {
+    if (config && typeof config === "object") this.c = config
+    else this.c = configuration.get()
+  }
+
 
   /**
    *
