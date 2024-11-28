@@ -43,6 +43,9 @@ class DnsResolver {
     else this.c = configuration.get()
   }
 
+  static config = configuration.config
+  static reset = configuration.reset
+  static get = configuration.get
 
   /**
    *
