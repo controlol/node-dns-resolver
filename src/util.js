@@ -2,6 +2,10 @@
  * @typedef {import("./types.js").DnsErrorInfo} DnsErrorInfo
  */
 
+/**
+ * @typedef {Pick<DnsError, "hostname"|"recordType"|"expectedValue"|"chain"|"status"|"name"|"message">} DnsErrorData
+ */
+
 export class DnsError extends Error {
   /** @type {DnsErrorInfo["hostname"]} */
   hostname
@@ -34,10 +38,14 @@ export class DnsError extends Error {
     this.status = status
   }
 
+  /** @returns {DnsErrorData} */
   toObject = () => ({
     message: this.message,
+    name: this.name,
     hostname: this.hostname,
-    expected: this.expectedValue,
-    recordType: this.recordType
+    expectedValue: this.expectedValue,
+    recordType: this.recordType,
+    chain: this.chain,
+    status: this.status,
   })
 }
