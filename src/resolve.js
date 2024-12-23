@@ -2,6 +2,14 @@ import { Resolver } from "node:dns/promises"
 import { DnsError } from "./util.js"
 import * as configuration from "./config.js"
 
+export class AssertError extends Error {
+  /** @param {string} message */
+  constructor(message) {
+    super(message)
+    this.name = "AssertError"
+  }
+}
+
 /**
  * @typedef {import("./types.js").RecordType} DnsRecordType // not all types included
  *
@@ -176,7 +184,7 @@ class DnsResolver {
       return intersection
     } else {
       chain[chainIndex].result = addresses
-      throw new Error("No valid IPv4 addresses found")
+      throw new AssertError("No valid IPv4 addresses found")
     }
   }
 
@@ -203,7 +211,7 @@ class DnsResolver {
       return intersection
     } else {
       chain[chainIndex].result = addresses
-      throw new Error("No valid IPv6 addresses found")
+      throw new AssertError("No valid IPv6 addresses found")
     }
   }
 
@@ -228,12 +236,12 @@ class DnsResolver {
         chain[chainIndex].result = addresses
       }
 
-      if (chain.length >= MAX_CNAME_DEPTH) throw new Error("CNAME record lookup exceeded maximum depth")
+      if (chain.length >= MAX_CNAME_DEPTH) throw new AssertError("CNAME record lookup exceeded maximum depth")
 
       // follow the first cname
       await this.#validateCname(addresses[0], chain)
     } catch (err) {
-      if (err instanceof Error) throw err
+      if (err instanceof AssertError) throw err
       if (err instanceof Error && "code" in err) {
         chain[chainIndex].result = /** @type {import("./types.js").DnsErrorCodes} */ (err.code)
 
